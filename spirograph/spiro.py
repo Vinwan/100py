@@ -82,3 +82,24 @@ class Spiro:
 			self.drawingComplete = True
 			# drawing is now done so hide the turtle cursor
 			self.t.hideturtle()
+
+# a class for animating Spirographs
+class SpiroAnimator:
+	# constructor
+	def __init__(self, N):
+		# set the timer value in milliseconds
+		self.deltaT = 10
+		# get the window dimensions
+		self.width = turtle.window_width()
+		self.height = turtle.window_height()
+		# create the Spiro objects
+		self.spiros = []
+		for i in range(N):
+			# generate random parameters
+			rparams = self.genRandomParams()
+			# set the spiro parameters
+			spiro = Sprio(*rparams)
+			self.spiros.append(spiro)
+			# call timer
+			turtle.ontimer(self.update, self.deltaT)
+			
