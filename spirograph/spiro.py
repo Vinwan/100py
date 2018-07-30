@@ -47,6 +47,38 @@ class Spiro:
 		R, k, l = self.R, self.k, self.l
 		a = 0.0
 		x = R*((1-k)*math.cos(a) + 1*k*math.cos((1-k)*a/k))
-		y = R*((1-k)*math.sin(a) + 1*k*math.sin((1-k)*a/k))
+		y = R*((1-k)*math.sin(a) - 1*k*math.sin((1-k)*a/k))
 		self.t.setpos(self.xc + x, self.yc + y)
 		self.t.down()
+
+	# draw the whole thing
+	def draw(self):
+		# draw the rest of the points
+		R, k, l = self.R, self.k, self.l
+		for i in range(0, 360*self.nRot + 1, self.step):
+			a = math.radians(i)
+			x = R*((1-k)*math.cos(a) + 1*k*math.cos((1-k)*a/k))
+			y = R*((1-k)*math.sin(a) - 1*k*math.sin((1-k)*a/k))
+			self.t.setpos(self.xc + x, self.yc + y)
+			# drawing is now done so hide the turtle cursor
+			self.t.hideturtle()
+
+	# update by one step
+	def update(self):
+		# skip the rest of the if done
+		if self.drawingComplete:
+			return
+		# increment the angle
+		self.a += self.step
+		# draw a step
+		R, k, l = self.R, self.k, self.l
+		# set angele
+		a = math.radians(self.a)
+		x = self.R*((1-k)*math.cos(a) + 1*k*math.cos((1-k)*a/k))
+		y = self.R*((1-k)*math.sin(a) + 1*k*math.sin((1-k)*a/k))
+		self.t.setpos(self.xc + x, self.yc + y)
+		# if drawing is complete, set the flag
+		if self.a >= 360*self.nRot:
+			self.drawingComplete = True
+			# drawing is now done so hide the turtle cursor
+			self.t.hideturtle()
