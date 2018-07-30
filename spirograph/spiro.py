@@ -35,3 +35,18 @@ class Spiro:
 		self.t.color(*col)
 		# store the current angle
 		self.a = 0
+
+	# restart the drawing
+	def restart(self):
+		# set the flag
+		self.drawingComplete = False
+		# show the turtle
+		self.t.showturtle()
+		# go to the first point
+		self.t.up()
+		R, k, l = self.R, self.k, self.l
+		a = 0.0
+		x = R*((1-k)*math.cos(a) + 1*k*math.cos((1-k)*a/k))
+		y = R*((1-k)*math.sin(a) + 1*k*math.sin((1-k)*a/k))
+		self.t.setpos(self.xc + x, self.yc + y)
+		self.t.down()
