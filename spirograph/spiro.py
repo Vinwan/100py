@@ -102,4 +102,41 @@ class SpiroAnimator:
 			self.spiros.append(spiro)
 			# call timer
 			turtle.ontimer(self.update, self.deltaT)
-			
+
+	# generate random parameters
+	def genRandomParams(self):
+		width, height = self.width, self.height
+		R = random.randint(50, min(width, height)//2)
+		r = random.randint(10, 9*R//10)
+		l = random.uniform(0.1, 0.9)
+		xc = random.randint(-width//2, width//2)
+		yc = random.randint(-height//2, height//2)
+		col = (random.random(), random.random(), random.random())
+		return(xc, yc, col, R, r, l)
+
+	# restart spiro drawing
+	def restart(self):
+		for spiro in self.spiros:
+			# clear
+			spiro.clear()
+			# generate random parameters
+			rparams = self.genRandomParams()
+			# set the sprio parameters
+			spiro.setparams(*rparams)
+			# restart drawing
+			spiro.restart()
+
+	def update(self):
+		# update all spiros
+		nComplete = 0
+		for spiro in self.spiros:
+			# update
+			spiro.update()
+			# count completed spiros
+			if spiro.drawingComplete:
+				nComplete += 1
+		# if all spiros are complete, restart
+		if nComplete == len(self.spiros):
+			self.restart()
+		# call the timer
+		turtle.ontimer(self.update, self.deltaT)
